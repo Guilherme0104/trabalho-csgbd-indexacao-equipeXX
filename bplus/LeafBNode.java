@@ -15,7 +15,6 @@ class LeafBNode<K extends Comparable<K>, V> extends BNode<K, V> {
         this.previous = null;
     }
 
-
     @Override
     public boolean isLeaf() {
         return true;
@@ -98,10 +97,12 @@ class LeafBNode<K extends Comparable<K>, V> extends BNode<K, V> {
             ((InternalBNode<K, V>) this.parent).handleChildUnderflow(this);
         }
     }
+
     K redistributeFrom(LeafBNode<K, V> sibling, boolean isLeftSibling) {
         if (isLeftSibling) {
-            K key = sibling.keys.remove(sibling.getKeyCount() - 1);
-            V value = sibling.values.remove(sibling.getKeyCount() - 1);
+            int lastIndex = sibling.getKeyCount() - 1;
+            K key = sibling.keys.remove(lastIndex);
+            V value = sibling.values.remove(lastIndex);
             this.keys.add(0, key);
             this.values.add(0, value);
             return this.keys.get(0);
